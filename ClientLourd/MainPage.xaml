@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientLourd.MainPage">
+    <StackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+
+        <!-- Dropdown pour choisir la monnaie -->
+        <Picker ItemsSource="{Binding Devises, Mode=TwoWay}" ItemDisplayBinding="{Binding NomDevise}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
+
+        <!-- Champ pour entrer la quantité -->
+        <Entry x:Name="MontantEuros" Text="{Binding MontantEuros, Mode=TwoWay}"/>
+
+        <!-- Bouton pour déclencher la conversion -->
+        <Button x:Name="convertir" Text="Convertir" Command="{Binding BtnSetConversion}"
+                IsEnabled="True"/>
+        <!-- Champ pour afficher le résultat -->
+        <Label x:Name="ResultatLabel"
+               Text="Résultat"
+               FontSize="Large"
+               HorizontalOptions="CenterAndExpand"
+               />
+        <Label Text="{Binding ConvertedValue}" FontSize="Large" HorizontalOptions="CenterAndExpand" />
+
+
+    </StackLayout>
+
+</ContentPage>
