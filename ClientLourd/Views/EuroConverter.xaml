@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClientLourd.Views.EuroConverter"
+             Title="Euro Converter">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                     Text="Retour" 
+                     Command="{Binding GoBackCommand}" 
+                     Priority="0" 
+                     Order="Primary" />
+    </ContentPage.ToolbarItems>
+    <StackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+
+
+        <Entry x:Name="Montant" Placeholder="Montant à convertir" Text="{Binding Amount, Mode=TwoWay}"/>
+        
+        <Picker ItemsSource="{Binding Devises, Mode=TwoWay}" ItemDisplayBinding="{Binding NomDevise}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
+
+        <Button x:Name="convertir" Text="Convertir en Euros" Command="{Binding BtnSetConversion}"
+                IsEnabled="True"/>
+        <Label x:Name="ResultatLabel"
+               Text="Résultat en euros"
+               FontSize="Large"
+               HorizontalOptions="CenterAndExpand"
+        />
+        <Label Text="{Binding ConvertedValue}" FontSize="Large" HorizontalOptions="CenterAndExpand" />
+
+
+    </StackLayout>
+</ContentPage>

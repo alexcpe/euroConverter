@@ -4,14 +4,15 @@ using ClientLourd.Models;
 using ClientLourd.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 
 namespace ClientLourd.ViewModels;
 
-public class ConvertisseurEuroViewModel : ObservableObject
+public class EuroConverterViewModel: ObservableObject
 {
     public IRelayCommand BtnSetConversion { get;  }
-    private string _montantEuros;
+
+    public ICommand GoBackCommand { get; private set; }
+    private string amount;
     private double convertedValue;
 
     public double ConvertedValue
@@ -23,13 +24,13 @@ public class ConvertisseurEuroViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    public string MontantEuros
+    public string Amount
     {
-        get { return _montantEuros; }
+        get { return amount; }
         set
         {
-            _montantEuros = value;
-            OnPropertyChanged(nameof(MontantEuros));
+            amount = value;
+            OnPropertyChanged(nameof(Amount));
         }
     }
     public Devise SelectedItem
@@ -42,7 +43,6 @@ public class ConvertisseurEuroViewModel : ObservableObject
         }
     }
     private Devise selectedItem;
-
     private ObservableCollection<Devise> devises;
     public ObservableCollection<Devise> Devises {
         get { return devises; } set
@@ -55,37 +55,34 @@ public class ConvertisseurEuroViewModel : ObservableObject
                 SelectedItem = devises[0];
             }
         } }
-    public ICommand GoToEuroConverter { get; private set; }
+    
 
-    public ConvertisseurEuroViewModel() 
+    public EuroConverterViewModel()
     {
         ActionGetDataAsync();
         BtnSetConversion = new RelayCommand(ActionSetConversion);
-        GoToEuroConverter = new Command(GoToEuroConverterPage);
+        GoBackCommand = new Command(GoBack);
     }
+
     private async void ActionGetDataAsync()
     {
         var result = await DeviseService.Instance.GetAllDevisesAsync();
         Devises = new ObservableCollection<Devise>(result);
     }
-
     private void ActionSetConversion()
     {
-        try
-        {
-            ConvertedValue = double.Parse(MontantEuros) / selectedItem.Taux;
-
-        }
-        catch (Exception e)
-        {
-            Application.Current.MainPage.DisplayAlert("Veuillez inscrire un montant s'il vous plaît", e.Message, "OK");
-            throw;
-        }
+            ConvertedValue = double.Parse(Amount) * selectedItem.Taux;
+        
 
     }
-    private async void GoToEuroConverterPage()
+    private bool IsDouble(string input)
     {
-        await Shell.Current.GoToAsync("///EuroConverter");
+        return double.TryParse(input, out _);
     }
- 
+
+    private async void GoBack()
+    {
+        await Shell.Current.GoToAsync("///MainPage");
+    }
+
 }

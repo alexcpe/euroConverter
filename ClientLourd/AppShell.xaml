@@ -4,11 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ClientLourd"
+    xmlns:views="clr-namespace:ClientLourd.Views"
     Shell.FlyoutBehavior="Disabled">
 
+    <!-- Première page -->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+
+    <!-- Deuxième page -->
+    <ShellContent
+        Title="Convertisseur d'euros"
+        ContentTemplate="{DataTemplate views:EuroConverter}"
+        Route="EuroConverter" />
 
 </Shell>
